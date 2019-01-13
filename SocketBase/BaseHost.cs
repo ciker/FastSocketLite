@@ -13,13 +13,11 @@ namespace FastSocketLite.SocketBase
     /// </summary>
     public abstract class BaseHost : IHost
     {
-        #region Members
         private long _connectionID = 1000L;
         private readonly ConnectionCollection _listConnections = new ConnectionCollection();
         private readonly SocketAsyncEventArgsPool _saePool = null;
-        #endregion
+        
 
-        #region Constructors
         /// <summary>
         /// new
         /// </summary>
@@ -36,20 +34,14 @@ namespace FastSocketLite.SocketBase
             this.MessageBufferSize = messageBufferSize;
             this._saePool = new SocketAsyncEventArgsPool(messageBufferSize);
         }
-        #endregion
+        
 
-        #region IHost Members
-        /// <summary>
-        /// get socket buffer size
-        /// </summary>
         public int SocketBufferSize
         {
             get;
             private set;
         }
-        /// <summary>
-        /// get message buffer size
-        /// </summary>
+        
         public int MessageBufferSize
         {
             get;
@@ -72,48 +64,32 @@ namespace FastSocketLite.SocketBase
             socket.SendBufferSize = this.SocketBufferSize;
             return new DefaultConnection(this.NextConnectionID(), socket, this);
         }
-        /// <summary>
-        /// get <see cref="IConnection"/> by connectionID
-        /// </summary>
-        /// <param name="connectionID"></param>
-        /// <returns></returns>
+        
         public IConnection GetConnectionByID(long connectionID)
         {
             return this._listConnections.Get(connectionID);
         }
-        /// <summary>
-        /// list all <see cref="IConnection"/>
-        /// </summary>
-        /// <returns></returns>
+        
         public IConnection[] ListAllConnection()
         {
             return this._listConnections.ToArray();
         }
-        /// <summary>
-        /// get connection count.
-        /// </summary>
-        /// <returns></returns>
+        
         public int CountConnection()
         {
             return this._listConnections.Count();
         }
 
-        /// <summary>
-        /// 启动
-        /// </summary>
         public virtual void Start()
         {
         }
-        /// <summary>
-        /// 停止
-        /// </summary>
+        
         public virtual void Stop()
         {
             this._listConnections.DisconnectAll();
         }
-        #endregion
+        
 
-        #region Protected Methods
         /// <summary>
         /// 生成下一个连接ID
         /// </summary>
@@ -122,6 +98,7 @@ namespace FastSocketLite.SocketBase
         {
             return Interlocked.Increment(ref this._connectionID);
         }
+        
         /// <summary>
         /// register connection
         /// </summary>
@@ -136,6 +113,7 @@ namespace FastSocketLite.SocketBase
                 this.OnConnected(connection);
             }
         }
+        
         /// <summary>
         /// OnConnected
         /// </summary>
@@ -146,6 +124,7 @@ namespace FastSocketLite.SocketBase
                 ", remot endPoint:", connection.RemoteEndPoint == null ? "unknow" : connection.RemoteEndPoint.ToString(),
                 ", local endPoint:", connection.LocalEndPoint == null ? "unknow" : connection.LocalEndPoint.ToString()));
         }
+        
         /// <summary>
         /// OnStartSending
         /// </summary>
@@ -154,6 +133,7 @@ namespace FastSocketLite.SocketBase
         protected virtual void OnStartSending(IConnection connection, Packet packet)
         {
         }
+        
         /// <summary>
         /// OnSendCallback
         /// </summary>
@@ -163,6 +143,7 @@ namespace FastSocketLite.SocketBase
         protected virtual void OnSendCallback(IConnection connection, Packet packet, bool isSuccess)
         {
         }
+        
         /// <summary>
         /// OnMessageReceived
         /// </summary>
@@ -171,6 +152,7 @@ namespace FastSocketLite.SocketBase
         protected virtual void OnMessageReceived(IConnection connection, MessageReceivedEventArgs e)
         {
         }
+        
         /// <summary>
         /// OnDisconnected
         /// </summary>
@@ -185,6 +167,7 @@ namespace FastSocketLite.SocketBase
                 ", local endPoint:", connection.LocalEndPoint == null ? "unknow" : connection.LocalEndPoint.ToString(),
                 ex == null ? string.Empty : string.Concat(", reason is: ", ex.ToString())));
         }
+        
         /// <summary>
         /// OnError
         /// </summary>
@@ -194,20 +177,17 @@ namespace FastSocketLite.SocketBase
         {
             Log.Trace.Error(ex.Message, ex);
         }
-        #endregion
+        
 
+        
         /// <summary>
         /// <see cref="SocketAsyncEventArgs"/> pool
         /// </summary>
         private class SocketAsyncEventArgsPool
         {
-            #region Private Members
             private readonly int _messageBufferSize;
-            private readonly ConcurrentStack<SocketAsyncEventArgs> _pool =
-                new ConcurrentStack<SocketAsyncEventArgs>();
-            #endregion
-
-            #region Constructors
+            private readonly ConcurrentStack<SocketAsyncEventArgs> _pool = new ConcurrentStack<SocketAsyncEventArgs>();
+            
             /// <summary>
             /// new
             /// </summary>
@@ -216,9 +196,8 @@ namespace FastSocketLite.SocketBase
             {
                 this._messageBufferSize = messageBufferSize;
             }
-            #endregion
+            
 
-            #region Public Methods
             /// <summary>
             /// acquire
             /// </summary>
@@ -232,6 +211,7 @@ namespace FastSocketLite.SocketBase
                 e.SetBuffer(new byte[this._messageBufferSize], 0, this._messageBufferSize);
                 return e;
             }
+            
             /// <summary>
             /// release
             /// </summary>
@@ -245,8 +225,7 @@ namespace FastSocketLite.SocketBase
                 }
 
                 e.Dispose();
-            }
-            #endregion
+            }            
         }
 
         #region DefaultConnection
@@ -255,7 +234,6 @@ namespace FastSocketLite.SocketBase
         /// </summary>
         private class DefaultConnection : IConnection
         {
-            #region Private Members
             private int _active = 1;
             private DateTime _latestActiveTime = Utils.Date.UtcNow;
             private readonly int _messageBufferSize;
@@ -270,9 +248,8 @@ namespace FastSocketLite.SocketBase
             private SocketAsyncEventArgs _saeReceive = null;
             private MemoryStream _tsStream = null;
             private int _isReceiving = 0;
-            #endregion
+            
 
-            #region Constructors
             /// <summary>
             /// new
             /// </summary>
@@ -307,9 +284,8 @@ namespace FastSocketLite.SocketBase
                 this._saeReceive = host._saePool.Acquire();
                 this._saeReceive.Completed += this.ReceiveAsyncCompleted;
             }
-            #endregion
+            
 
-            #region IConnection Members
             /// <summary>
             /// 连接断开事件
             /// </summary>
@@ -322,6 +298,7 @@ namespace FastSocketLite.SocketBase
             {
                 get { return Thread.VolatileRead(ref this._active) == 1; }
             }
+            
             /// <summary>
             /// get the connection latest active time.
             /// </summary>
@@ -329,18 +306,22 @@ namespace FastSocketLite.SocketBase
             {
                 get { return this._latestActiveTime; }
             }
+            
             /// <summary>
             /// get the connection id.
             /// </summary>
             public long ConnectionID { get; private set; }
+            
             /// <summary>
             /// 获取本地IP地址
             /// </summary>
             public IPEndPoint LocalEndPoint { get; private set; }
+            
             /// <summary>
             /// 获取远程IP地址
             /// </summary>
             public IPEndPoint RemoteEndPoint { get; private set; }
+            
             /// <summary>
             /// 获取或设置与用户数据
             /// </summary>
@@ -355,6 +336,7 @@ namespace FastSocketLite.SocketBase
                 if (!this._packetQueue.TrySend(packet))
                     this.OnSendCallback(packet, false);
             }
+
             /// <summary>
             /// 异步接收数据
             /// </summary>
@@ -363,6 +345,7 @@ namespace FastSocketLite.SocketBase
                 if (Interlocked.CompareExchange(ref this._isReceiving, 1, 0) == 0)
                     this.ReceiveInternal();
             }
+            
             /// <summary>
             /// 异步断开连接
             /// </summary>
@@ -374,9 +357,7 @@ namespace FastSocketLite.SocketBase
             }
             #endregion
 
-            #region Private Methods
-
-            #region Free
+            
             /// <summary>
             /// free send queue
             /// </summary>
@@ -390,6 +371,7 @@ namespace FastSocketLite.SocketBase
 
                 if (result.BeforeState == PacketQueue.IDLE) this.FreeSend();
             }
+            
             /// <summary>
             /// free for send.
             /// </summary>
@@ -400,6 +382,7 @@ namespace FastSocketLite.SocketBase
                 this._host._saePool.Release(this._saeSend);
                 this._saeSend = null;
             }
+            
             /// <summary>
             /// free fo receive.
             /// </summary>
@@ -414,9 +397,8 @@ namespace FastSocketLite.SocketBase
                     this._tsStream = null;
                 }
             }
-            #endregion
+            
 
-            #region Fire Events
             /// <summary>
             /// fire StartSending
             /// </summary>
@@ -425,6 +407,7 @@ namespace FastSocketLite.SocketBase
             {
                 this._host.OnStartSending(this, packet);
             }
+            
             /// <summary>
             /// fire SendCallback
             /// </summary>
@@ -437,6 +420,7 @@ namespace FastSocketLite.SocketBase
 
                 this._host.OnSendCallback(this, packet, isSuccess);
             }
+            
             /// <summary>
             /// fire MessageReceived
             /// </summary>
@@ -446,6 +430,7 @@ namespace FastSocketLite.SocketBase
                 this._latestActiveTime = Utils.Date.UtcNow;
                 this._host.OnMessageReceived(this, e);
             }
+            
             /// <summary>
             /// fire Disconnected
             /// </summary>
@@ -454,6 +439,7 @@ namespace FastSocketLite.SocketBase
                 if (this.Disconnected != null) this.Disconnected(this, ex);
                 this._host.OnDisconnected(this, ex);
             }
+            
             /// <summary>
             /// fire Error
             /// </summary>
@@ -462,7 +448,7 @@ namespace FastSocketLite.SocketBase
             {
                 this._host.OnConnectionError(this, ex);
             }
-            #endregion
+            
 
             #region Send
             /// <summary>
@@ -560,7 +546,6 @@ namespace FastSocketLite.SocketBase
             }
             #endregion
 
-            #region Receive
             /// <summary>
             /// receive
             /// </summary>
@@ -578,6 +563,7 @@ namespace FastSocketLite.SocketBase
                 if (!completed)
                     ThreadPool.QueueUserWorkItem(_ => this.ReceiveAsyncCompleted(this, this._saeReceive));
             }
+            
             /// <summary>
             /// async receive callback
             /// </summary>
@@ -611,6 +597,7 @@ namespace FastSocketLite.SocketBase
 
                 this.OnMessageReceived(new MessageReceivedEventArgs(buffer, this.MessageProcessCallback));
             }
+            
             /// <summary>
             /// message process callback
             /// </summary>
@@ -645,9 +632,8 @@ namespace FastSocketLite.SocketBase
                     new ArraySegment<byte>(payload.Array, payload.Offset + readlength, payload.Count - readlength),
                     this.MessageProcessCallback));
             }
-            #endregion
+            
 
-            #region Disconnect
             /// <summary>
             /// disconnect
             /// </summary>
@@ -695,9 +681,8 @@ namespace FastSocketLite.SocketBase
                 //close send queue
                 this.FreeSendQueue();
             }
-            #endregion
-
-            #endregion
+            
+        
 
             #region PacketQueue
             /// <summary>
@@ -705,7 +690,6 @@ namespace FastSocketLite.SocketBase
             /// </summary>
             private class PacketQueue
             {
-                #region Private Members
                 public const int IDLE = 1;     //空闲状态
                 public const int SENDING = 2;  //发送中
                 public const int ENQUEUE = 3;  //入列状态
@@ -715,9 +699,8 @@ namespace FastSocketLite.SocketBase
                 private int _state = IDLE;      //当前状态
                 private Queue<Packet> _queue = new Queue<Packet>();
                 private Action<Packet> _sendAction = null;
-                #endregion
+                
 
-                #region Constructors
                 /// <summary>
                 /// new
                 /// </summary>
@@ -728,9 +711,8 @@ namespace FastSocketLite.SocketBase
                     if (sendAction == null) throw new ArgumentNullException("sendAction");
                     this._sendAction = sendAction;
                 }
-                #endregion
+                
 
-                #region Public Methods
                 /// <summary>
                 /// try send packet
                 /// </summary>
@@ -766,6 +748,7 @@ namespace FastSocketLite.SocketBase
                     this._sendAction(packet);
                     return true;
                 }
+
                 /// <summary>
                 /// close
                 /// </summary>
@@ -807,6 +790,7 @@ namespace FastSocketLite.SocketBase
                     this._sendAction = null;
                     return new CloseResult(beforeState, arrPackets);
                 }
+
                 /// <summary>
                 /// try send next packet
                 /// </summary>
@@ -843,9 +827,8 @@ namespace FastSocketLite.SocketBase
                     this._sendAction(packet);
                     return true;
                 }
-                #endregion
-
-                #region CloseResult
+                
+                
                 /// <summary>
                 /// close queue result
                 /// </summary>
@@ -870,11 +853,10 @@ namespace FastSocketLite.SocketBase
                         this.BeforeState = beforeState;
                         this.Packets = packets;
                     }
-                }
-                #endregion
+                }                
             }
             #endregion
         }
-        #endregion
+        
     }
 }

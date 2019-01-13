@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Server\FastSocketLite.Server.csproj" />
-    <ProjectReference Include="..\SocketBase\FastSocketLite.SocketBase.csproj" />
+    <ProjectReference Include="..\..\Server\FastSocketLite.Server.csproj" />
+    <ProjectReference Include="..\..\SocketBase\FastSocketLite.SocketBase.csproj" />
   </ItemGroup>
 
 </Project>

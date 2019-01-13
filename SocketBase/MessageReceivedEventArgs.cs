@@ -2,6 +2,7 @@
 
 namespace FastSocketLite.SocketBase
 {
+    //TODO ArraySegment를 Span으로 바꾸기
     /// <summary>
     /// 消息处理handler
     /// </summary>
@@ -18,11 +19,14 @@ namespace FastSocketLite.SocketBase
         /// process callback
         /// </summary>
         private readonly MessageProcessHandler _processCallback = null;
+
+        //TODO ArraySegment를 Span으로 바꾸기
         /// <summary>
         /// Buffer
         /// </summary>
         public readonly ArraySegment<byte> Buffer;
 
+        //TODO ArraySegment를 Span으로 바꾸기
         /// <summary>
         /// new
         /// </summary>
@@ -36,10 +40,6 @@ namespace FastSocketLite.SocketBase
             this._processCallback = processCallback;
         }
 
-        /// <summary>
-        /// 设置已读取长度
-        /// </summary>
-        /// <param name="readlength"></param>
         public void SetReadlength(int readlength)
         {
             this._processCallback(this.Buffer, readlength);

@@ -7,7 +7,6 @@ namespace FastSocketLite.SocketBase
     /// </summary>
     public class Packet
     {
-        #region Members
         /// <summary>
         /// get or set sent size.
         /// </summary>
@@ -20,9 +19,8 @@ namespace FastSocketLite.SocketBase
         /// get payload
         /// </summary>
         public readonly byte[] Payload;
-        #endregion
+        
 
-        #region Constructors
         /// <summary>
         /// new
         /// </summary>
@@ -33,24 +31,17 @@ namespace FastSocketLite.SocketBase
             if (payload == null) throw new ArgumentNullException("payload");
             this.Payload = payload;
         }
-        #endregion
+        
 
-        #region Public Properties
         /// <summary>
         /// get or set tag object
         /// </summary>
         public object Tag { get; set; }
-        #endregion
+        
 
-        #region Public Methods
-        /// <summary>
-        /// 获取一个值，该值指示当前packet是否已发送完毕.
-        /// </summary>
-        /// <returns>true表示已发送完毕</returns>
         public bool IsSent()
         {
             return this.SentSize == this.Payload.Length;
-        }
-        #endregion
+        }        
     }
 }

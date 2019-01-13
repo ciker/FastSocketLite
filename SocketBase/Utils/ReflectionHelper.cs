@@ -10,10 +10,10 @@ namespace FastSocketLite.SocketBase.Utils
     public static class ReflectionHelper
     {
         /// <summary>
-        /// 获取实现了指定类口类型的基类实例。
+        /// 지정된 클래스 타입을 구현하는 기본 클래스 인스턴스를 가져온다.
         /// </summary>
-        /// <typeparam name="T">接口类型</typeparam>
-        /// <param name="assembly">指定的程序集</param>
+        /// <typeparam name="T">인터페이스 유형</typeparam>
+        /// <param name="assembly">지정된 어셈블리</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">assembly is null</exception>
         static public T[] GetImplementObjects<T>(Assembly assembly)
