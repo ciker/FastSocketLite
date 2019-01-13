@@ -1,28 +1,9 @@
 # FastSocketList
-FastSocket.Net(https://github.com/ihaoqihao/FastSocket.Net)을 .NET Core 포팅 버전
+FastSocket.Net(https://github.com/ihaoqihao/FastSocket.Net)을 .NET Core로 포팅한 것이다.
   
-app.config  
-```
-<?xml version="1.0"?>
-<configuration>
-
-  <configSections>
-    <section name="socketServer"
-             type="Sodao.FastSocket.Server.Config.SocketServerConfig, FastSocket.Server"/>
-  </configSections>
-
-  <socketServer>
-    <servers>
-      <server name="demo1"
-              port="9999"
-              socketBufferSize="8192"
-              messageBufferSize="8192"
-              maxMessageSize="102400"
-              maxConnections="20000"
-              serviceType="service type"
-              protocol="thrift|commandLine|custom protocol type"/>
-    </servers>
-  </socketServer>
-
-</configuration>
-```  
+## TODO
+- [] .NET Core 및 C# 최신 버전의 기능 적용
+- [] 샘플 코드 만들기
+- [] 기능 추가
+- [] 대규모 더미 클라이언트 테스트
+- [] 프로파일링을 통한 최적화 작업  
