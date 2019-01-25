@@ -4,9 +4,6 @@ using System.Reflection;
 
 namespace FastSocketLite.SocketBase.Utils
 {
-    /// <summary>
-    /// 反射帮助类。
-    /// </summary>
     public static class ReflectionHelper
     {
         /// <summary>

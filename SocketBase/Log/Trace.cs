@@ -26,6 +26,14 @@ namespace FastSocketLite.SocketBase.Log
         }
 
         /// <summary>
+        /// enable NLog trace listener
+        /// </summary>
+        static public void EnableNLog()
+        {
+            _list.Add(new NLogListener());
+        }
+
+        /// <summary>
         /// add listener
         /// </summary>
         /// <param name="listener"></param>

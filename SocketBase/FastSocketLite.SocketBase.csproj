@@ -8,4 +8,8 @@
     <Compile Remove="Utils\TaskEx.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.4.0" />
+  </ItemGroup>
+
 </Project>

@@ -10,15 +10,15 @@ namespace FastSocketLite.SocketBase.Utils
     {
         #region Private Members
         /// <summary>
-        /// A类: 10.0.0.0-10.255.255.255
+        /// A 클래스: 10.0.0.0-10.255.255.255
         /// </summary>
         static private long ipABegin, ipAEnd;
         /// <summary>
-        /// B类: 172.16.0.0-172.31.255.255   
+        /// B 클래스: 172.16.0.0-172.31.255.255   
         /// </summary>
         static private long ipBBegin, ipBEnd;
         /// <summary>
-        /// C类: 192.168.0.0-192.168.255.255
+        /// C 클래스: 192.168.0.0-192.168.255.255
         /// </summary>
         static private long ipCBegin, ipCEnd;
         #endregion
@@ -61,7 +61,7 @@ namespace FastSocketLite.SocketBase.Utils
             return bytes[0] * 256 * 256 * 256 + bytes[1] * 256 * 256 + bytes[2] * 256 + bytes[3];
         }
         /// <summary>
-        /// true表示为内网IP
+        /// true이면 인트라넷 IP
         /// </summary>
         /// <param name="ipAddress"></param>
         /// <returns></returns>
@@ -70,7 +70,7 @@ namespace FastSocketLite.SocketBase.Utils
             return IsIntranet(ConvertToNumber(ipAddress));
         }
         /// <summary>
-        /// true表示为内网IP
+        /// true이면 인트라넷 IP
         /// </summary>
         /// <param name="ipAddress"></param>
         /// <returns></returns>
@@ -79,7 +79,7 @@ namespace FastSocketLite.SocketBase.Utils
             return IsIntranet(ConvertToNumber(ipAddress));
         }
         /// <summary>
-        /// true表示为内网IP
+        /// true이면 인트라넷 IP
         /// </summary>
         /// <param name="longIP"></param>
         /// <returns></returns>
@@ -89,10 +89,8 @@ namespace FastSocketLite.SocketBase.Utils
                     (longIP >= ipBBegin) && (longIP <= ipBEnd) ||
                     (longIP >= ipCBegin) && (longIP <= ipCEnd));
         }
-        /// <summary>
-        /// 获取本机内网IP
-        /// </summary>
-        /// <returns></returns>
+        
+
         static public IPAddress GetLocalIntranetIP()
         {
             var list = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
@@ -103,10 +101,7 @@ namespace FastSocketLite.SocketBase.Utils
 
             return null;
         }
-        /// <summary>
-        /// 获取本机内网IP列表
-        /// </summary>
-        /// <returns></returns>
+        
         static public List<IPAddress> GetLocalIntranetIPList()
         {
             var list = Dns.GetHostEntry(Dns.GetHostName()).AddressList;

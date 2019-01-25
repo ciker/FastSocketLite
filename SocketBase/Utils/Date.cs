@@ -3,7 +3,7 @@
 namespace FastSocketLite.SocketBase.Utils
 {
     /// <summary>
-    /// 关于时间的一些操作
+    /// 시간 관련 작업
     /// </summary>
     static public class Date
     {
@@ -12,7 +12,7 @@ namespace FastSocketLite.SocketBase.Utils
         static private DateTime lastDateTime;
 
         /// <summary>
-        /// unix下的纪元时间
+        /// unix 시간
         /// </summary>
         static private readonly DateTime unixEpoch =
             new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);

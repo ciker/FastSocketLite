@@ -17,20 +17,22 @@ namespace FastSocketLite.SocketBase
 
         public bool Add(IConnection connection)
         {
-            if (connection == null) throw new ArgumentNullException("connection");
+            if (connection == null)
+            {
+                throw new ArgumentNullException("connection");
+            }
+
             return this._dic.TryAdd(connection.ConnectionID, connection);
         }
         
         public bool Remove(long connectionID)
         {
-            IConnection connection;
-            return this._dic.TryRemove(connectionID, out connection);
+            return this._dic.TryRemove(connectionID, out var connection);
         }
         
         public IConnection Get(long connectionID)
         {
-            IConnection connection;
-            this._dic.TryGetValue(connectionID, out connection);
+            this._dic.TryGetValue(connectionID, out var connection);
             return connection;
         }
         
@@ -47,7 +49,11 @@ namespace FastSocketLite.SocketBase
         public void DisconnectAll()
         {
             var connections = this.ToArray();
-            foreach (var conn in connections) conn.BeginDisconnect();
+
+            foreach (var conn in connections)
+            {
+                conn.BeginDisconnect();
+            }
         }        
     }
 }

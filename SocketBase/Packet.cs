@@ -28,7 +28,11 @@ namespace FastSocketLite.SocketBase
         /// <exception cref="ArgumentNullException">payload is null.</exception>
         public Packet(byte[] payload)
         {
-            if (payload == null) throw new ArgumentNullException("payload");
+            if (payload == null)
+            {
+                throw new ArgumentNullException("payload");
+            }
+
             this.Payload = payload;
         }
         
@@ -38,7 +42,6 @@ namespace FastSocketLite.SocketBase
         /// </summary>
         public object Tag { get; set; }
         
-
         public bool IsSent()
         {
             return this.SentSize == this.Payload.Length;
