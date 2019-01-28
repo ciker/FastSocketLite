@@ -133,7 +133,7 @@ namespace FastSocketLite.SocketBase
         /// OnConnected
         /// </summary>
         /// <param name="connection"></param>
-        public virtual void OnConnected(IConnection connection)
+        virtual public void OnConnected(IConnection connection)
         {
             Log.Trace.Debug(string.Concat("socket connected, id:", connection.ConnectionID.ToString(),
                 ", remot endPoint:", connection.RemoteEndPoint == null ? "unknow" : connection.RemoteEndPoint.ToString(),
@@ -145,7 +145,7 @@ namespace FastSocketLite.SocketBase
         /// </summary>
         /// <param name="connection"></param>
         /// <param name="packet"></param>
-        public virtual void OnStartSending(IConnection connection, Packet packet)
+        virtual public void OnStartSending(IConnection connection, Packet packet)
         {
         }
 
@@ -155,7 +155,7 @@ namespace FastSocketLite.SocketBase
         /// <param name="connection"></param>
         /// <param name="packet"></param>
         /// <param name="isSuccess"></param>
-        public virtual void OnSendCallback(IConnection connection, Packet packet, bool isSuccess)
+        virtual public void OnSendCallback(IConnection connection, Packet packet, bool isSuccess)
         {
         }
 
@@ -164,7 +164,7 @@ namespace FastSocketLite.SocketBase
         /// </summary>
         /// <param name="connection"></param>
         /// <param name="e"></param>
-        public virtual void OnMessageReceived(IConnection connection, MessageReceivedEventArgs e)
+        virtual public void OnMessageReceived(IConnection connection, MessageReceivedEventArgs e)
         {
         }
 
@@ -174,7 +174,7 @@ namespace FastSocketLite.SocketBase
         /// <param name="connection"></param>
         /// <param name="ex"></param>
         /// <exception cref="ArgumentNullException">connection is null</exception>
-        public virtual void OnDisconnected(IConnection connection, Exception ex)
+        virtual public void OnDisconnected(IConnection connection, Exception ex)
         {
             this._listConnections.Remove(connection.ConnectionID);
             Log.Trace.Debug(string.Concat("socket disconnected, id:", connection.ConnectionID.ToString(),
@@ -188,7 +188,7 @@ namespace FastSocketLite.SocketBase
         /// </summary>
         /// <param name="connection"></param>
         /// <param name="ex"></param>
-        public virtual void OnConnectionError(IConnection connection, Exception ex)
+        virtual public void OnConnectionError(IConnection connection, Exception ex)
         {
             Log.Trace.Error(ex.Message, ex);
         }

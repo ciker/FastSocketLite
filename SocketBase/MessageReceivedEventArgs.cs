@@ -4,7 +4,7 @@ namespace FastSocketLite.SocketBase
 {
     //TODO ArraySegment를 Span으로 바꾸기
     /// <summary>
-    /// 消息处理handler
+    /// 메시지 처리 handler
     /// </summary>
     /// <param name="buffer"></param>
     /// <param name="readlength"></param>

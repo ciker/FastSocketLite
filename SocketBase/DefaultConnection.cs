@@ -151,6 +151,7 @@ namespace FastSocketLite.SocketBase
             }
         }
 
+        //TODO 멀티스레드 환경에서 문제 없는지 확인하기
         /// <summary>
         /// free for send.
         /// </summary>
@@ -182,7 +183,7 @@ namespace FastSocketLite.SocketBase
         /// fire StartSending
         /// </summary>
         /// <param name="packet"></param>
-        private void OnStartSending(Packet packet)
+        public void OnStartSending(Packet packet)
         {
             this._host.OnStartSending(this, packet);
         }
@@ -249,7 +250,7 @@ namespace FastSocketLite.SocketBase
         {
             var packet = this._currSendingPacket;
 
-            //按messageBufferSize大小分块传输
+            //messageBufferSize 크기로 블럭 전송
             var length = Math.Min(packet.Payload.Length - packet.SentSize, this._messageBufferSize);
             var completedAsync = true;
             try
@@ -406,7 +407,6 @@ namespace FastSocketLite.SocketBase
                 return;
             }
 
-            //粘包处理
             this.OnMessageReceived(new MessageReceivedEventArgs(
                 new ArraySegment<byte>(payload.Array, payload.Offset + readlength, payload.Count - readlength),
                 this.MessageProcessCallback));

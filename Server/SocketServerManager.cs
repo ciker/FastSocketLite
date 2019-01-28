@@ -10,15 +10,12 @@ namespace FastSocketLite.Server
     /// </summary>
     public class SocketServerManager
     {
-        #region Private Members
         /// <summary>
         /// key:server name.
         /// </summary>
-        static private readonly Dictionary<string, SocketBase.IHost> _dicHosts =
-            new Dictionary<string, SocketBase.IHost>();
-        #endregion
+        static private readonly Dictionary<string, SocketBase.IHost> _dicHosts = new Dictionary<string, SocketBase.IHost>();
+        
 
-        #region Static Methods
         /// <summary>
         /// 初始化Socket Server
         /// </summary>
@@ -27,35 +24,52 @@ namespace FastSocketLite.Server
             Init("socketServer");
         }
         /// <summary>
-        /// 初始化Socket Server
+        /// Socket Server 초기화
         /// </summary>
         /// <param name="sectionName"></param>
         static public void Init(string sectionName)
         {
-            if (string.IsNullOrEmpty(sectionName)) throw new ArgumentNullException("sectionName");
+            if (string.IsNullOrEmpty(sectionName))
+            {
+                throw new ArgumentNullException("sectionName");
+            }
+
             Init(ConfigurationManager.GetSection(sectionName) as Config.SocketServerConfig);
         }
-        /// <summary>
-        /// 初始化Socket Server
-        /// </summary>
-        /// <param name="config"></param>
-        static public void Init(Config.SocketServerConfig config)
+        
+        static void Init(Config.SocketServerConfig config)
         {
-            if (config == null) throw new ArgumentNullException("config");
-            if (config.Servers == null) return;
+            if (config == null)
+            {
+                throw new ArgumentNullException("config");
+            }
+
+            if (config.Servers == null)
+            {
+                return;
+            }
 
             foreach (Config.Server serverConfig in config.Servers)
             {
                 //inti protocol
                 var objProtocol = GetProtocol(serverConfig.Protocol);
-                if (objProtocol == null) throw new InvalidOperationException("protocol");
+                if (objProtocol == null)
+                {
+                    throw new InvalidOperationException("protocol");
+                }
 
                 //init custom service
                 var tService = Type.GetType(serverConfig.ServiceType, false);
-                if (tService == null) throw new InvalidOperationException("serviceType");
+                if (tService == null)
+                {
+                    throw new InvalidOperationException("serviceType");
+                }
 
                 var objService = Activator.CreateInstance(tService);
-                if (objService == null) throw new InvalidOperationException("serviceType");
+                if (objService == null)
+                {
+                    throw new InvalidOperationException("serviceType");
+                }
 
                 //init host.
                 _dicHosts.Add(serverConfig.Name, Activator.CreateInstance(
@@ -70,11 +84,7 @@ namespace FastSocketLite.Server
                         serverConfig.MaxConnections) as SocketBase.IHost);
             }
         }
-        /// <summary>
-        /// get protocol.
-        /// </summary>
-        /// <param name="protocol"></param>
-        /// <returns></returns>
+        
         static public object GetProtocol(string protocol)
         {
             switch (protocol)
@@ -85,30 +95,21 @@ namespace FastSocketLite.Server
             return Activator.CreateInstance(Type.GetType(protocol, false));
         }
 
-        /// <summary>
-        /// 启动服务
-        /// </summary>
+        
         static public void Start()
         {
             _dicHosts.ToList().ForEach(c => c.Value.Start());
         }
-        /// <summary>
-        /// 停止服务
-        /// </summary>
+        
         static public void Stop()
         {
             _dicHosts.ToList().ForEach(c => c.Value.Stop());
         }
-        /// <summary>
-        /// try get host by name.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="host"></param>
-        /// <returns></returns>
+        
         static public bool TryGetHost(string name, out SocketBase.IHost host)
         {
             return _dicHosts.TryGetValue(name, out host);
         }
-        #endregion
+        
     }
 }

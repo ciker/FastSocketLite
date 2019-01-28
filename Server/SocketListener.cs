@@ -10,14 +10,13 @@ namespace FastSocketLite.Server
     /// </summary>
     public sealed class SocketListener : ISocketListener
     {
-        #region Private Members
         private readonly SocketBase.IHost _host = null;
         private const int BACKLOG = 500;
         private Socket _socket = null;
         private readonly SocketAsyncEventArgs _ae = null;
-        #endregion
+        
 
-        #region Constructors
+        
         /// <summary>
         /// new
         /// </summary>
@@ -27,8 +26,15 @@ namespace FastSocketLite.Server
         /// <exception cref="ArgumentNullException">host is null</exception>
         public SocketListener(IPEndPoint endPoint, SocketBase.IHost host)
         {
-            if (endPoint == null) throw new ArgumentNullException("endPoint");
-            if (host == null) throw new ArgumentNullException("host");
+            if (endPoint == null)
+            {
+                throw new ArgumentNullException("endPoint");
+            }
+
+            if (host == null)
+            {
+                throw new ArgumentNullException("host");
+            }
 
             this.EndPoint = endPoint;
             this._host = host;
@@ -36,20 +42,16 @@ namespace FastSocketLite.Server
             this._ae = new SocketAsyncEventArgs();
             this._ae.Completed += this.AcceptCompleted;
         }
-        #endregion
+        
 
-        #region ISocketListener Members
+        
         /// <summary>
         /// socket accepted event
         /// </summary>
         public event Action<ISocketListener, SocketBase.IConnection> Accepted;
-        /// <summary>
-        /// get listener endPoint
-        /// </summary>
+        
         public EndPoint EndPoint { get; private set; }
-        /// <summary>
-        /// start
-        /// </summary>
+        
         public void Start()
         {
             if (this._socket == null)
@@ -61,9 +63,6 @@ namespace FastSocketLite.Server
                 this.AcceptAsync(this._socket);
             }
         }
-        /// <summary>
-        /// stop
-        /// </summary>
         public void Stop()
         {
             if (this._socket != null)
@@ -72,22 +71,34 @@ namespace FastSocketLite.Server
                 this._socket = null;
             }
         }
-        #endregion
+        
 
-        #region Private Methods
+        
         /// <summary>
         /// accept socket.
         /// </summary>
         /// <param name="socket"></param>
         private void AcceptAsync(Socket socket)
         {
-            if (socket == null) return;
+            if (socket == null)
+            {
+                return;
+            }
 
             bool completed = true;
-            try { completed = this._socket.AcceptAsync(this._ae); }
-            catch (Exception ex) { SocketBase.Log.Trace.Error(ex.Message, ex); }
+            try
+            {
+                completed = this._socket.AcceptAsync(this._ae);
+            }
+            catch (Exception ex)
+            {
+                SocketBase.Log.Trace.Error(ex.Message, ex);
+            }
 
-            if (!completed) ThreadPool.QueueUserWorkItem(_ => this.AcceptCompleted(this, this._ae));
+            if (!completed)
+            {
+                ThreadPool.QueueUserWorkItem(_ => this.AcceptCompleted(this, this._ae));
+            }
         }
         /// <summary>
         /// async accept socket completed handle.
@@ -97,7 +108,11 @@ namespace FastSocketLite.Server
         private void AcceptCompleted(object sender, SocketAsyncEventArgs e)
         {
             Socket accepted = null;
-            if (e.SocketError == SocketError.Success) accepted = e.AcceptSocket;
+            if (e.SocketError == SocketError.Success)
+            {
+                accepted = e.AcceptSocket;
+            }
+
             e.AcceptSocket = null;
 
             if (accepted != null)
@@ -106,6 +121,6 @@ namespace FastSocketLite.Server
             //continue to accept!
             this.AcceptAsync(this._socket);
         }
-        #endregion
+        
     }
 }
