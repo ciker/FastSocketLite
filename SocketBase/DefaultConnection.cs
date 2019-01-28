@@ -151,7 +151,6 @@ namespace FastSocketLite.SocketBase
             }
         }
 
-        //TODO 멀티스레드 환경에서 문제 없는지 확인하기
         /// <summary>
         /// free for send.
         /// </summary>
@@ -271,6 +270,7 @@ namespace FastSocketLite.SocketBase
             if (!completedAsync)
                 ThreadPool.QueueUserWorkItem(_ => this.SendAsyncCompleted(this, e));
         }
+
         /// <summary>
         /// async send callback
         /// </summary>
@@ -319,9 +319,15 @@ namespace FastSocketLite.SocketBase
                     this.OnSendCallback(packet, true);
 
                     //try send next packet
-                    if (!this._packetQueue.TrySendNext()) this.FreeSend();
+                    if (!this._packetQueue.TrySendNext())
+                    {
+                        this.FreeSend();
+                    }
                 }
-                else this.SendPacketInternal(e);//continue send this packet
+                else
+                {
+                    this.SendPacketInternal(e);//continue send this packet
+                }
             }
         }
         #endregion

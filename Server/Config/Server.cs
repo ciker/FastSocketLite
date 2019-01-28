@@ -7,17 +7,12 @@ namespace FastSocketLite.Server.Config
     /// </summary>
     public class Server : ConfigurationElement
     {
-        /// <summary>
-        /// 名称
-        /// </summary>
         [ConfigurationProperty("name", IsRequired = true)]
         public string Name
         {
             get { return (string)this["name"]; }
         }
-        /// <summary>
-        /// 端口号。
-        /// </summary>
+
         [ConfigurationProperty("port", IsRequired = true)]
         public int Port
         {
@@ -25,34 +20,34 @@ namespace FastSocketLite.Server.Config
         }
 
         /// <summary>
-        /// Socket Buffer Size
-        /// 默认8192 bytes
+        /// Socket Buffer Size.  default 8192 bytes
         /// </summary>
         [ConfigurationProperty("socketBufferSize", IsRequired = false, DefaultValue = 8192)]
         public int SocketBufferSize
         {
             get { return (int)this["socketBufferSize"]; }
         }
+
         /// <summary>
-        /// Message Buffer Size
-        /// 默认1024 bytes
+        /// Message Buffer Size. default 1024 bytes
         /// </summary>
         [ConfigurationProperty("messageBufferSize", IsRequired = false, DefaultValue = 8192)]
         public int MessageBufferSize
         {
             get { return (int)this["messageBufferSize"]; }
         }
+
         /// <summary>
-        /// max message size,
-        /// 默认4MB
+        /// max message size. default 4MB
         /// </summary>
         [ConfigurationProperty("maxMessageSize", IsRequired = false, DefaultValue = 1024 * 1024 * 4)]
         public int MaxMessageSize
         {
             get { return (int)this["maxMessageSize"]; }
         }
+
         /// <summary>
-        /// 最大连接数，默认2W
+        /// 최대 접속 가능 수.  default 20,000
         /// </summary>
         [ConfigurationProperty("maxConnections", IsRequired = false, DefaultValue = 20000)]
         public int MaxConnections
@@ -68,8 +63,9 @@ namespace FastSocketLite.Server.Config
         {
             get { return (string)this["serviceType"]; }
         }
+
         /// <summary>
-        /// 协议, 默认命令行协议
+        /// 프로토콜.  default 명령줄 프로토콜
         /// </summary>
         [ConfigurationProperty("protocol", IsRequired = false, DefaultValue = "commandLine")]
         public string Protocol

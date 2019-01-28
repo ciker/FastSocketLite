@@ -25,10 +25,17 @@ namespace FastSocketLite.Server.Protocol
                 return null;
             }
 
-            //获取message length
+            //message length 얻기
             var messageLength = SocketBase.Utils.NetworkBitConverter.ToInt32(buffer.Array, buffer.Offset);
-            if (messageLength < 14) throw new BadProtocolException("bad thrift protocol");
-            if (messageLength > maxMessageSize) throw new BadProtocolException("message is too long");
+            if (messageLength < 14)
+            {
+                throw new BadProtocolException("bad thrift protocol");
+            }
+
+            if (messageLength > maxMessageSize)
+            {
+                throw new BadProtocolException("message is too long");
+            }
 
             readlength = messageLength + 4;
             if (buffer.Count < readlength)

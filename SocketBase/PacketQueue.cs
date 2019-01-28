@@ -106,11 +106,11 @@ namespace FastSocketLite.SocketBase
                 }
             }
 
-            //TODO 다른스레드에서 같은 타이밍에 TrySendNext()를 호출하여 _sendAction 호출 중이라면 queue, sendAction을 파괴하면 안됨
+            // 다른 스레드에서 같은 타이밍에 queue를 접근하지는 않음.
             var arrPackets = this._queue.ToArray();
             this._queue.Clear();
             this._queue = null;
-            this._sendAction = null;
+            // this._sendAction = null; 이 부분을 null로 하면 다른 스레드에서 TrySendNext()에서 SENDING 후 this._sendAction를 호출할 때 충돌한다.
             return new CloseResult(beforeState, arrPackets);
         }
 

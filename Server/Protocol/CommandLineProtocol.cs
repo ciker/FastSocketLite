@@ -4,13 +4,9 @@ using System.Text;
 
 namespace FastSocketLite.Server.Protocol
 {
-    /// <summary>
-    /// 命令行协议
-    /// </summary>
     public sealed class CommandLineProtocol : IProtocol<Messaging.CommandLineMessage>
     {
-        static private readonly string[] SPLITER =
-            new string[] { " " };
+        static private readonly string[] SPLITER = new string[] { " " };
 
         /// <summary>
         /// parse
@@ -30,24 +26,40 @@ namespace FastSocketLite.Server.Protocol
                 return null;
             }
 
-            //查找\r\n标记符
+            // \r\n 태그 찾기
             for (int i = buffer.Offset, len = buffer.Offset + buffer.Count; i < len; i++)
             {
                 if (buffer.Array[i] == 13 && i + 1 < len && buffer.Array[i + 1] == 10)
                 {
                     readlength = i + 2 - buffer.Offset;
 
-                    if (readlength == 2) return new Messaging.CommandLineMessage(string.Empty);
-                    if (readlength > maxMessageSize) throw new BadProtocolException("message is too long");
+                    if (readlength == 2)
+                    {
+                        return new Messaging.CommandLineMessage(string.Empty);
+                    }
+
+                    if (readlength > maxMessageSize)
+                    {
+                        throw new BadProtocolException("message is too long");
+                    }
 
                     string command = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, readlength - 2);
                     var arr = command.Split(SPLITER, StringSplitOptions.RemoveEmptyEntries);
 
-                    if (arr.Length == 0) return new Messaging.CommandLineMessage(string.Empty);
-                    if (arr.Length == 1) return new Messaging.CommandLineMessage(arr[0]);
+                    if (arr.Length == 0)
+                    {
+                        return new Messaging.CommandLineMessage(string.Empty);
+                    }
+
+                    if (arr.Length == 1)
+                    {
+                        return new Messaging.CommandLineMessage(arr[0]);
+                    }
+
                     return new Messaging.CommandLineMessage(arr[0], arr.Skip(1).ToArray());
                 }
             }
+
             readlength = 0;
             return null;
         }

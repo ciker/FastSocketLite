@@ -28,14 +28,17 @@ namespace FastSocketLite.Server.Messaging
         /// <exception cref="ArgumentNullException">cmdName is null</exception>
         public CommandLineMessage(string cmdName, params string[] parameters)
         {
-            if (cmdName == null) throw new ArgumentNullException("cmdName");
+            if (cmdName == null)
+            {
+                throw new ArgumentNullException("cmdName");
+            }
 
             this.CmdName = cmdName;
             this.Parameters = parameters;
         }
         #endregion
 
-        #region Public Methods
+        
         /// <summary>
         /// reply
         /// </summary>
@@ -44,9 +47,14 @@ namespace FastSocketLite.Server.Messaging
         /// <exception cref="ArgumentNullException">connection is null</exception>
         public void Reply(SocketBase.IConnection connection, string value)
         {
-            if (connection == null) throw new ArgumentNullException("connection");
+            if (connection == null)
+            {
+                throw new ArgumentNullException("connection");
+            }
+
             connection.BeginSend(ToPacket(value));
         }
+
         /// <summary>
         /// to <see cref="SocketBase.Packet"/>
         /// </summary>
@@ -55,9 +63,13 @@ namespace FastSocketLite.Server.Messaging
         /// <exception cref="ArgumentNullException">value is null</exception>
         static public SocketBase.Packet ToPacket(string value)
         {
-            if (value == null) throw new ArgumentNullException("value");
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
+
             return new SocketBase.Packet(Encoding.UTF8.GetBytes(string.Concat(value, Environment.NewLine)));
         }
-        #endregion
+        
     }
 }

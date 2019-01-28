@@ -10,16 +10,11 @@ namespace FastSocketLite.Server.Protocol
         /// <summary>
         /// new
         /// </summary>
-        public BadProtocolException()
-            : base("bad protocol.")
+        public BadProtocolException()  : base("bad protocol.")
         {
         }
-        /// <summary>
-        /// new
-        /// </summary>
-        /// <param name="message"></param>
-        public BadProtocolException(string message)
-            : base(message)
+
+        public BadProtocolException(string message) : base(message)
         {
         }
     }

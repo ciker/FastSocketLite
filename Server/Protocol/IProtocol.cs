@@ -4,7 +4,7 @@ using System;
 namespace FastSocketLite.Server.Protocol
 {
     /// <summary>
-    /// tcp协议接口
+    /// tcp 프로토콜 인터페이스
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     public interface IProtocol<TMessage> where TMessage : class, Messaging.IMessage

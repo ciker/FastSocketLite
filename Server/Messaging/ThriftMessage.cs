@@ -18,7 +18,11 @@ namespace FastSocketLite.Server.Messaging
         /// <param name="payload"></param>
         public ThriftMessage(byte[] payload)
         {
-            if (payload == null) throw new ArgumentNullException("payload");
+            if (payload == null)
+            {
+                throw new ArgumentNullException("payload");
+            }
+
             this.Payload = payload;
         }
     }

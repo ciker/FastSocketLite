@@ -13,7 +13,7 @@ namespace EchoServer
                 SocketServerManager.Init();
                 SocketServerManager.Start();
 
-                //每隔10秒强制断开所有连接
+                //10 초마다 모든 연결이 끊어 지도록 한다.
                 System.Threading.Tasks.Task.Factory.StartNew(() =>
                 {
                     while (true)
@@ -23,10 +23,14 @@ namespace EchoServer
                         if (SocketServerManager.TryGetHost("quickStart", out host))
                         {
                             var arr = host.ListAllConnection();
-                            foreach (var c in arr) c.BeginDisconnect();
+                            foreach (var c in arr)
+                            {
+                                c.BeginDisconnect();
+                            }
                         }
                     }
                 });
+
                 Console.ReadLine();
             }
             catch(Exception ex)
