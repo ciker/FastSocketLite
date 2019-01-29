@@ -19,7 +19,7 @@ namespace FastSocketLite.Server.Messaging
         public readonly string[] Parameters;
         #endregion
 
-        #region Constructors
+        
         /// <summary>
         /// new
         /// </summary>
@@ -36,7 +36,7 @@ namespace FastSocketLite.Server.Messaging
             this.CmdName = cmdName;
             this.Parameters = parameters;
         }
-        #endregion
+        
 
         
         /// <summary>

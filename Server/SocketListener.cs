@@ -48,7 +48,7 @@ namespace FastSocketLite.Server
         /// <summary>
         /// socket accepted event
         /// </summary>
-        public event Action<ISocketListener, SocketBase.IConnection> Accepted;
+        public event Action<SocketBase.IConnection> Accepted;
         
         public EndPoint EndPoint { get; private set; }
         
@@ -116,7 +116,9 @@ namespace FastSocketLite.Server
             e.AcceptSocket = null;
 
             if (accepted != null)
-                this.Accepted(this, this._host.NewConnection(accepted));
+            {
+                this.Accepted(this._host.NewConnection(accepted));
+            }
 
             //continue to accept!
             this.AcceptAsync(this._socket);

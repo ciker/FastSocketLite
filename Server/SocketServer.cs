@@ -73,9 +73,8 @@ namespace FastSocketLite.Server
         /// <summary>
         /// socket accepted handler
         /// </summary>
-        /// <param name="listener"></param>
         /// <param name="connection"></param>
-        private void OnAccepted(ISocketListener listener, SocketBase.IConnection connection)
+        private void OnAccepted(SocketBase.IConnection connection)
         {
             if (base.CountConnection() < this._maxConnections)
             {

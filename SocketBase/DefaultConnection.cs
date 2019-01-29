@@ -215,7 +215,11 @@ namespace FastSocketLite.SocketBase
         /// </summary>
         private void OnDisconnected(Exception ex)
         {
-            if (this.Disconnected != null) this.Disconnected(this, ex);
+            if (this.Disconnected != null)
+            {
+                this.Disconnected(this, ex);
+            }
+
             this._host.OnDisconnected(this, ex);
         }
 
@@ -398,8 +402,14 @@ namespace FastSocketLite.SocketBase
             var ts = this._tsStream;
             if (readlength == 0)
             {
-                if (ts == null) this._tsStream = ts = new MemoryStream(this._messageBufferSize);
-                else ts.SetLength(0);
+                if (ts == null)
+                {
+                    this._tsStream = ts = new MemoryStream(this._messageBufferSize);
+                }
+                else
+                {
+                    ts.SetLength(0);
+                }
 
                 ts.Write(payload.Array, payload.Offset, payload.Count);
                 this.ReceiveInternal();
@@ -408,7 +418,11 @@ namespace FastSocketLite.SocketBase
 
             if (readlength == payload.Count)
             {
-                if (ts != null) ts.SetLength(0);
+                if (ts != null)
+                {
+                    ts.SetLength(0);
+                }
+
                 this.ReceiveInternal();
                 return;
             }

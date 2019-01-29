@@ -11,7 +11,7 @@ namespace FastSocketLite.Server
         /// <summary>
         /// socket accepted event
         /// </summary>
-        event Action<ISocketListener, SocketBase.IConnection> Accepted;
+        event Action<SocketBase.IConnection> Accepted;
 
         EndPoint EndPoint { get; }
 
